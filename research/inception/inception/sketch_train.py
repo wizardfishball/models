@@ -7,7 +7,7 @@ from __future__ import print_function
 import tensorflow as tf
 
 from inception import inception_train
-from inception.flowers_data import SketchData
+from inception.sketch_data import SketchData
 
 FLAGS = tf.app.flags.FLAGS
 
