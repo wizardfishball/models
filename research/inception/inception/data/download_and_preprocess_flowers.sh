@@ -87,7 +87,7 @@ done < "${LABELS_FILE}"
 
 # Build the TFRecords version of the image data.
 cd "${CURRENT_DIR}"
-BUILD_SCRIPT="${WORK_DIR}/build_image_data.py"
+BUILD_SCRIPT="${WORK_DIR}/build_image_data"
 OUTPUT_DIRECTORY="${DATA_DIR}"
 "${BUILD_SCRIPT}" \
   --train_directory="${TRAIN_DIRECTORY}" \
