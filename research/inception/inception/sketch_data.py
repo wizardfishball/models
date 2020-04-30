@@ -9,10 +9,10 @@ from inception.dataset import Dataset
 
 
 class SketchData(Dataset):
-  """Flowers data set."""
+  """Sketch data set."""
 
   def __init__(self, subset):
-    super(FlowersData, self).__init__('Flowers', subset)
+    super(SketchData, self).__init__('Sketch', subset)
 
   def num_classes(self):
     """Returns the number of classes in the data set."""
@@ -26,7 +26,6 @@ class SketchData(Dataset):
       return 2500*8
 
   def download_message(self):
-    """Instruction to download and extract the tarball from Flowers website."""
-
+    """"""
     print('You have a problem, but Im not sure what happens.')
     
