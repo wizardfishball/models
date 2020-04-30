@@ -40,6 +40,16 @@ py_library(
 )
 
 py_library(
+    name = "sketch_data",
+    srcs = [
+        "sketch_data.py",
+    ],
+    deps = [
+        ":dataset",
+    ],
+)
+
+py_library(
     name = "image_processing",
     srcs = [
         "image_processing.py",
@@ -76,6 +86,17 @@ py_binary(
     ],
     deps = [
         ":flowers_data",
+        ":inception_eval",
+    ],
+)
+
+py_binary(
+    name = "sketch_eval",
+    srcs = [
+        "sketch_eval.py",
+    ],
+    deps = [
+        ":sketch_data",
         ":inception_eval",
     ],
 )
@@ -120,6 +141,17 @@ py_binary(
     ],
     deps = [
         ":flowers_data",
+        ":inception_train",
+    ],
+)
+
+py_binary(
+    name = "sketch_train",
+    srcs = [
+        "sketch_train.py",
+    ],
+    deps = [
+        ":sketch_data",
         ":inception_train",
     ],
 )
