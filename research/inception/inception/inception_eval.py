@@ -52,6 +52,10 @@ tf.app.flags.DEFINE_string('subset', 'validation',
                            """Either 'validation' or 'train'.""")
 
 
+mapping = {0:'back', 1:'airplane', 2:'bird', 3:'cat', 4:'chair', 5:'frog', 6:'house', 7:'key', 8:'tree'}
+
+
+
 def _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, logits):
   """Runs Eval once.
 
@@ -102,7 +106,7 @@ def _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, logits):
       start_time = time.time()
       while step < num_iter and not coord.should_stop():
         res = sess.run(logits)
-        print(np.array(res))
+        print([mapping[np.argmax(log)] for log in np.array(res)])
         top_1, top_5 = sess.run([top_1_op, top_5_op])
         count_top_1 += np.sum(top_1)
         count_top_5 += np.sum(top_5)
