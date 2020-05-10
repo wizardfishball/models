@@ -52,7 +52,7 @@ tf.app.flags.DEFINE_string('subset', 'validation',
                            """Either 'validation' or 'train'.""")
 
 
-def _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op):
+def _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, logits):
   """Runs Eval once.
 
   Args:
@@ -101,6 +101,8 @@ def _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op):
       print('%s: starting evaluation on (%s).' % (datetime.now(), FLAGS.subset))
       start_time = time.time()
       while step < num_iter and not coord.should_stop():
+        res = sess.run(logits)
+        print(np.array(res))
         top_1, top_5 = sess.run([top_1_op, top_5_op])
         count_top_1 += np.sum(top_1)
         count_top_5 += np.sum(top_5)
@@ -165,7 +167,7 @@ def evaluate(dataset):
                                             graph_def=graph_def)
 
     while True:
-      _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op)
+      _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, logits)
       if FLAGS.run_once:
         break
       time.sleep(FLAGS.eval_interval_secs)
