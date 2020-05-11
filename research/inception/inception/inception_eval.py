@@ -112,7 +112,7 @@ def _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, logits, la
       #   top_1, top_5 = sess.run([top_1_op, top_5_op])
       #   count_top_1 += np.sum(top_1)
       #   count_top_5 += np.sum(top_5)
-      #   step += 1
+        step += 1
       #   if step % 20 == 0:
       #     duration = time.time() - start_time
       #     sec_per_batch = duration / 20.0
