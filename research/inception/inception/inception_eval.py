@@ -109,30 +109,30 @@ def _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, logits, la
         print([mapping[np.argmax(log)] for log in np.array(res)])
         lab = sess.run(labels)
         print(np.array(lab))
-        top_1, top_5 = sess.run([top_1_op, top_5_op])
-        count_top_1 += np.sum(top_1)
-        count_top_5 += np.sum(top_5)
-        step += 1
-        if step % 20 == 0:
-          duration = time.time() - start_time
-          sec_per_batch = duration / 20.0
-          examples_per_sec = FLAGS.batch_size / sec_per_batch
-          print('%s: [%d batches out of %d] (%.1f examples/sec; %.3f'
-                'sec/batch)' % (datetime.now(), step, num_iter,
-                                examples_per_sec, sec_per_batch))
-          start_time = time.time()
+      #   top_1, top_5 = sess.run([top_1_op, top_5_op])
+      #   count_top_1 += np.sum(top_1)
+      #   count_top_5 += np.sum(top_5)
+      #   step += 1
+      #   if step % 20 == 0:
+      #     duration = time.time() - start_time
+      #     sec_per_batch = duration / 20.0
+      #     examples_per_sec = FLAGS.batch_size / sec_per_batch
+      #     print('%s: [%d batches out of %d] (%.1f examples/sec; %.3f'
+      #           'sec/batch)' % (datetime.now(), step, num_iter,
+      #                           examples_per_sec, sec_per_batch))
+      #     start_time = time.time()
 
-      # Compute precision @ 1.
-      precision_at_1 = count_top_1 / total_sample_count
-      recall_at_5 = count_top_5 / total_sample_count
-      print('%s: precision @ 1 = %.4f recall @ 5 = %.4f [%d examples]' %
-            (datetime.now(), precision_at_1, recall_at_5, total_sample_count))
+      # # Compute precision @ 1.
+      # precision_at_1 = count_top_1 / total_sample_count
+      # recall_at_5 = count_top_5 / total_sample_count
+      # print('%s: precision @ 1 = %.4f recall @ 5 = %.4f [%d examples]' %
+      #       (datetime.now(), precision_at_1, recall_at_5, total_sample_count))
 
-      summary = tf.Summary()
-      summary.ParseFromString(sess.run(summary_op))
-      summary.value.add(tag='Precision @ 1', simple_value=precision_at_1)
-      summary.value.add(tag='Recall @ 5', simple_value=recall_at_5)
-      summary_writer.add_summary(summary, global_step)
+      # summary = tf.Summary()
+      # summary.ParseFromString(sess.run(summary_op))
+      # summary.value.add(tag='Precision @ 1', simple_value=precision_at_1)
+      # summary.value.add(tag='Recall @ 5', simple_value=recall_at_5)
+      # summary_writer.add_summary(summary, global_step)
 
     except Exception as e:  # pylint: disable=broad-except
       coord.request_stop(e)
@@ -174,5 +174,6 @@ def evaluate(dataset):
     while True:
       _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, logits, labels)
       if FLAGS.run_once:
+        exit(1)
         break
       time.sleep(FLAGS.eval_interval_secs)
