@@ -56,7 +56,7 @@ mapping = {0:'back', 1:'airplane', 2:'bird', 3:'cat', 4:'chair', 5:'frog', 6:'ho
 
 
 
-def _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, logits):
+def _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, logits, labels):
   """Runs Eval once.
 
   Args:
@@ -107,6 +107,8 @@ def _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, logits):
       while step < num_iter and not coord.should_stop():
         res = sess.run(logits)
         print([mapping[np.argmax(log)] for log in np.array(res)])
+        lab = sess.run(labels)
+        print(np.array(lab))
         top_1, top_5 = sess.run([top_1_op, top_5_op])
         count_top_1 += np.sum(top_1)
         count_top_5 += np.sum(top_5)
@@ -144,8 +146,6 @@ def evaluate(dataset):
   with tf.Graph().as_default():
     # Get images and labels from the dataset.
     images, labels = image_processing.inputs(dataset)
-    print("image type: ", type(images))
-    print(images)
     # Number of classes in the Dataset label set plus 1.
     # Label 0 is reserved for an (unused) background class.
     num_classes = dataset.num_classes() + 1
@@ -172,7 +172,7 @@ def evaluate(dataset):
                                             graph_def=graph_def)
 
     while True:
-      _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, logits)
+      _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, logits, labels)
       if FLAGS.run_once:
         break
       time.sleep(FLAGS.eval_interval_secs)
