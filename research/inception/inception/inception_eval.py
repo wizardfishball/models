@@ -144,7 +144,8 @@ def evaluate(dataset):
   with tf.Graph().as_default():
     # Get images and labels from the dataset.
     images, labels = image_processing.inputs(dataset)
-
+    print("image type: ", type(images))
+    print(images)
     # Number of classes in the Dataset label set plus 1.
     # Label 0 is reserved for an (unused) background class.
     num_classes = dataset.num_classes() + 1
