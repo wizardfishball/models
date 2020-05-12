@@ -106,9 +106,12 @@ def _eval_once(saver, summary_writer, top_1_op, top_5_op, summary_op, logits, la
       start_time = time.time()
       while step < num_iter and not coord.should_stop():
         res = sess.run(logits)
-        print([mapping[np.argmax(log)] for log in np.array(res)])
+        pred = [mapping[np.argmax(log)] for log in np.array(res)]
+        print(pred)
         lab = sess.run(labels)
         print(np.array(lab))
+        with open('/content/drive/My Drive/CS282A Final Project/data/test_input/pred.txt', 'a') as f:
+          f.write('{}\n'.format(pred[0]))
       #   top_1, top_5 = sess.run([top_1_op, top_5_op])
       #   count_top_1 += np.sum(top_1)
       #   count_top_5 += np.sum(top_5)
